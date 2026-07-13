@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow:wght@400;600;700&display=swap');
+
+  :root {
+    --bg: #0e0e0e;
+    --surface: #161616;
+    --border: #2a2a2a;
+    --accent: #e8ff47;
+    --accent2: #ff4757;
+    --text: #f0f0f0;
+    --muted: #bbb;
+    --track-h: 6px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    width: 380px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Barlow', sans-serif;
+    user-select: none;
+    overflow: hidden;
+  }
+
+  /* Header */
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px 10px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .logo-icon {
+    width: 22px;
+    height: 22px;
+    background: var(--accent);
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .logo-text {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+
+  .status-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--muted);
+    transition: background 0.3s;
+  }
+  .status-dot.active { background: var(--accent); box-shadow: 0 0 6px var(--accent); }
+
+  /* Display */
+  .display {
+    padding: 18px 16px 10px;
+    text-align: center;
+    position: relative;
+  }
+
+  .vol-readout {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 52px;
+    font-weight: 400;
+    color: var(--accent);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    transition: color 0.2s;
+  }
+
+  .vol-readout.danger { color: var(--accent2); }
+
+  .vol-unit {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 14px;
+    color: var(--muted);
+    letter-spacing: 0.15em;
+    margin-top: 2px;
+  }
+
+  /* Meter bar */
+  .meter {
+    height: 3px;
+    background: var(--border);
+    margin: 12px 16px 0;
+    border-radius: 1px;
+    overflow: hidden;
+  }
+
+  .meter-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 1px;
+    transition: width 0.15s, background 0.2s;
+  }
+
+  .meter-fill.danger { background: var(--accent2); }
+
+  /* Slider section */
+  .slider-wrap {
+    padding: 16px 16px 8px;
+  }
+
+  .slider-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    font-family: 'Share Tech Mono', monospace;
+  }
+
+  input[type=range] {
+    -webkit-appearance: none;
+    width: 100%;
+    height: var(--track-h);
+    background: var(--border);
+    border-radius: 3px;
+    outline: none;
+    cursor: pointer;
+  }
+
+  input[type=range]::-moz-range-thumb {
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid var(--bg);
+    cursor: pointer;
+    box-shadow: 0 0 8px rgba(232,255,71,0.4);
+    transition: transform 0.1s;
+  }
+
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid var(--bg);
+    cursor: pointer;
+    box-shadow: 0 0 8px rgba(232,255,71,0.4);
+    transition: transform 0.1s;
+  }
+
+  input[type=range]::-moz-range-track {
+    height: var(--track-h);
+    background: transparent;
+  }
+
+  input[type=range]:active::-moz-range-thumb { transform: scale(1.2); }
+  input[type=range]:active::-webkit-slider-thumb { transform: scale(1.2); }
+
+  /* Presets */
+  .presets {
+    padding: 8px 16px 14px;
+  }
+
+  .presets-label {
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-family: 'Share Tech Mono', monospace;
+    margin-bottom: 8px;
+  }
+
+  .preset-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 5px;
+  }
+
+  .preset-btn {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 13px;
+    padding: 7px 4px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-align: center;
+  }
+
+  .preset-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(232,255,71,0.06);
+  }
+
+  .preset-btn.active {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(232,255,71,0.1);
+  }
+
+  .preset-btn.danger:hover,
+  .preset-btn.danger.active {
+    border-color: var(--accent2);
+    color: var(--accent2);
+    background: rgba(255,71,87,0.1);
+  }
+
+  /* Footer */
+  .footer {
+    border-top: 1px solid var(--border);
+    padding: 8px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .reset-btn {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: all 0.15s;
+  }
+
+  .reset-btn:hover {
+    border-color: var(--text);
+    color: var(--text);
+  }
+
+  .tab-info {
+    font-size: 10px;
+    color: var(--muted);
+    font-family: 'Share Tech Mono', monospace;
+    max-width: 140px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: right;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo">
+    <div class="logo-icon"></div>
+    <span class="logo-text">VOLBOOST</span>
+  </div>
+  <div class="status-dot" id="statusDot"></div>
+</div>
+
+<div class="display">
+  <div class="vol-readout" id="readout">100</div>
+  <div class="vol-unit">PERCENT</div>
+</div>
+
+<div class="meter">
+  <div class="meter-fill" id="meterFill" style="width:16.67%"></div>
+</div>
+
+<div class="slider-wrap">
+  <div class="slider-label">
+    <span>0%</span>
+    <span>VOLUME</span>
+    <span>600%</span>
+  </div>
+  <input type="range" id="volSlider" min="0" max="6" step="0.05" value="1">
+</div>
+
+<div class="presets">
+  <div class="presets-label">Presets</div>
+  <div class="preset-grid">
+    <button class="preset-btn" data-val="0.1">10%</button>
+    <button class="preset-btn" data-val="0.5">50%</button>
+    <button class="preset-btn active" data-val="1">100%</button>
+    <button class="preset-btn" data-val="2">200%</button>
+    <button class="preset-btn danger" data-val="6">600%</button>
+  </div>
+</div>
+
+<div class="footer">
+  <button class="reset-btn" id="resetBtn">RESET</button>
+  <div class="tab-info" id="tabInfo">—</div>
+</div>
+
+<script src="popup.js"></script>
+</body>
+</html>
